@@ -1,0 +1,9 @@
+{% extends 'index.html' %}
+
+    {% block content %}
+        <p class="text-right mt-4"><a class="text-right" href="/">Back</a></p>
+        <h1 class="mt-4">Reserve: {{get_reservation.start_date}} - {{get_reservation.end_date}}</h1>
+
+        <p>Reserved by: {{get_reservation.client.username}}</p>
+        <p>Space: {{get_reservation.parking_space.id}}</p>
+    {% endblock %}

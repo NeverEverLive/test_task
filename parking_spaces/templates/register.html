@@ -1,0 +1,13 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <p class="text-right mt-4"><a class="text-right" href="/">Back</a></p>
+    <h1 class="mt-4">Register</h1>
+    <div class="col-4">
+        <form id="register_form" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button form="register_form" type="submit" class="btn btn-primary mt-4">Register</button>
+        </form>
+    </div>
+{% endblock %}

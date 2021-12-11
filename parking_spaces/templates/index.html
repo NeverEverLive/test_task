@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+
+    <div class="container mt-4">
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+              {% url 'home' as url_home %}
+            <a class="nav-link {% if url_home == request.path %} active {% endif %}" href="{{url_home}}">Home</a>
+          </li>
+            {% if perms.parking_spaces.add_reservation%}
+          <li class="nav-item">
+              {% url 'edit_page' as url_edit %}
+            <a class="nav-link {% if url_edit == request.path %} active {% endif %}" href="{{url_edit}}">Create/edit/delete</a>
+          </li>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+             <li class="nav-item">
+              {% url 'log_out_page' as url_log_out %}
+              <button onclick="window.location.href = '{{url_log_out}}'" type = "button" class="btn btn-danger mx-4">Logout</button>
+<!--            <a class="nav-link btn btn-danger ml-30"  href="{{url_log_out}}">Log out</a>-->
+            {% else %}
+            <li class="nav-item">
+              {% url 'login_page' as url_login %}
+            <a class="nav-link {% if url_login == request.path %} active {% endif %}" href="{{url_login}}">Log in</a>
+          </li>
+          <li class="nav-item">
+              {% url 'sign_in_page' as url_sign_in %}
+            <a class="nav-link {% if url_sign_in == request.path %} active {% endif %}" href="{{url_sign_in}}">Register</a>
+          </li>
+            {% endif %}
+            {{request.user}}
+        </ul>
+    {% block content %}
+        <h1 class="mt-4">Reservation</h1><br>
+        {% for i in queryset %}
+            <ul class="list-group mt-4">
+                <li class="list-group-item">
+                    <b>{{ i.start_date }} - {{ i.end_date }}</b>
+                    <span class="m-2">Reserved {{ i.parking_space.id }} space</span>
+                    <span class="mr-2">{{ i.client.username }}</span>
+
+                    <span class="float-right m-3"><a href="/detail/{{i.id}}">Go to reservation</a></span>
+                </li>
+            </ul>
+        {% endfor %}
+    {% endblock %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  </body>
+</html>
